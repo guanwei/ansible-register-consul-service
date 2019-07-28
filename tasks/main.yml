@@ -1,0 +1,17 @@
+---
+- name: Set service_address
+  set_fact: service_address={{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}
+  when: service_address == ""
+
+- name: Register consul service {{ service_name_prefix }}-{{ service_address | replace('.','-') }} with an http check
+  consul:
+    host: "{{ consul_address.split(':')[0] }}"
+    port: "{{ consul_address.split(':')[1] | default(8500) }}"
+    service_name: "{{ service_name_prefix }}-{{ service_address | replace('.','-') }}"
+    service_address: "{{ service_address }}"
+    service_port: "{{ service_port }}"
+    tags: "{{ service_tags }}"
+    http: "http://{{ service_address }}:{{ service_port }}{{ http_path }}"
+    interval: "{{ interval }}"
+    timeout: "{{ timeout }}"
+  delegate_to: localhost

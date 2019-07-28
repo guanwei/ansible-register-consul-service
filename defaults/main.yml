@@ -1,0 +1,9 @@
+---
+consul_address: "localhost:8500"
+service_name_prefix: service
+service_address: ""
+service_port: ""
+service_tags: []
+http_path: ""
+interval: 60s
+timeout: 10s
