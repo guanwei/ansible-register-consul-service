@@ -1,6 +1,6 @@
 ---
 - name: Set service_address
-  set_fact: service_address={{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}
+  set_fact: service_address={{ ansible_default_ipv4.address }}
   when: service_address == ""
 
 - name: Register consul service {{ service_name_prefix }}-{{ service_address | replace('.','-') }} with an http check
